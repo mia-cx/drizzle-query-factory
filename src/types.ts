@@ -176,7 +176,10 @@ export type RunListQueryParsedArgs<TTable extends Table> =
  * ```
  */
 export type RunListQueryRawArgs<TTable extends Table> =
-	RunListQueryBase<TTable> & { input: QueryInput; config: ListQueryConfig };
+	RunListQueryBase<TTable> & {
+		input: QueryInput;
+		config: ListQueryConfig;
+	};
 
 /** Union of both accepted argument shapes. */
 export type RunListQueryArgs<TTable extends Table> =

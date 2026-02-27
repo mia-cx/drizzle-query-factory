@@ -72,7 +72,10 @@ export async function runListQuery<TTable extends Table>(
 > {
 	const query = resolveQuery(opts);
 	const { db, table, baseWhere, count: shouldCount = true } = opts;
-	const mode = "mode" in opts && opts.mode === "envelope" ? "envelope" : "rows";
+	const mode =
+		"mode" in opts && opts.mode === "envelope" ?
+			"envelope"
+		:	"rows";
 	const finalWhere = composeWhere(baseWhere, query.where);
 
 	if (shouldCount) {
@@ -94,7 +97,12 @@ export async function runListQuery<TTable extends Table>(
 		const has_more = query.offset + rows.length < total;
 
 		if (mode === "envelope") {
-			return listResponse(rows, total, query.limit, query.offset);
+			return listResponse(
+				rows,
+				total,
+				query.limit,
+				query.offset,
+			);
 		}
 		return { rows, total, has_more };
 	}
@@ -113,7 +121,12 @@ export async function runListQuery<TTable extends Table>(
 	if (mode === "envelope") {
 		return {
 			data: rows,
-			meta: { total, limit: query.limit, offset: query.offset, has_more },
+			meta: {
+				total,
+				limit: query.limit,
+				offset: query.offset,
+				has_more,
+			},
 		};
 	}
 	return { rows, total, has_more };

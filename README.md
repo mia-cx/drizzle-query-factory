@@ -136,12 +136,18 @@ If you want the factory to execute the Drizzle query for you (instead of manuall
 ### Basic usage (rows mode, default)
 
 ```typescript
-import { parseListQuery, runListQuery, listResponse } from "@mia-cx/drizzle-query-factory";
+import {
+  parseListQuery,
+  runListQuery,
+  listResponse,
+} from "@mia-cx/drizzle-query-factory";
 
 const query = parseListQuery(request, config);
 
 const { rows, total, has_more } = await runListQuery({
-  db, table: resources, query,
+  db,
+  table: resources,
+  query,
   baseWhere: eq(resources.status, "LISTED"), // composable with query-param filters
 });
 
@@ -154,7 +160,9 @@ Returns a `ListResponseEnvelope` directly — no manual wrapping needed:
 
 ```typescript
 const envelope = await runListQuery({
-  db, table: resources, query,
+  db,
+  table: resources,
+  query,
   baseWhere: eq(resources.status, "LISTED"),
   mode: "envelope",
 });
@@ -168,7 +176,10 @@ By default, `runListQuery` runs two parallel queries (rows + `count(*)`). Set `c
 
 ```typescript
 const result = await runListQuery({
-  db, table: resources, query, count: false,
+  db,
+  table: resources,
+  query,
+  count: false,
 });
 // result.total = offset + rows.length  (lower-bound, not exact)
 // result.has_more = rows.length === limit

@@ -35,7 +35,13 @@ const createMockDb = (opts: { rows: unknown[]; total?: number }) => {
 		select: vi.fn((...args: any[]) => {
 			callIndex++;
 			if (args.length > 0 && args[0]?.total !== undefined) {
-				return makeChain([{ total: opts.total ?? opts.rows.length }]);
+				return makeChain([
+					{
+						total:
+							opts.total ??
+							opts.rows.length,
+					},
+				]);
 			}
 			return makeChain(opts.rows);
 		}),
@@ -100,7 +106,9 @@ describe("runListQuery", () => {
 			const rowsChain = db.select.mock.results[0].value;
 			const whereArg = rowsChain.where.mock.calls[0][0];
 			const expected = and(bWhere, qWhere);
-			expect(whereArg?.queryChunks).toEqual(expected?.queryChunks);
+			expect(whereArg?.queryChunks).toEqual(
+				expected?.queryChunks,
+			);
 		});
 
 		it("passes undefined where when neither baseWhere nor query.where", async () => {
@@ -121,8 +129,18 @@ describe("runListQuery", () => {
 	describe("rows mode (default)", () => {
 		it("returns { rows, total, has_more } by default", async () => {
 			const mockRows = [
-				{ id: "1", slug: "a", active: true, createdAt: 100 },
-				{ id: "2", slug: "b", active: true, createdAt: 200 },
+				{
+					id: "1",
+					slug: "a",
+					active: true,
+					createdAt: 100,
+				},
+				{
+					id: "2",
+					slug: "b",
+					active: true,
+					createdAt: 200,
+				},
 			];
 			const db = createMockDb({ rows: mockRows, total: 5 });
 
@@ -140,7 +158,12 @@ describe("runListQuery", () => {
 
 		it("sets has_more to false when no more rows", async () => {
 			const mockRows = [
-				{ id: "1", slug: "a", active: true, createdAt: 100 },
+				{
+					id: "1",
+					slug: "a",
+					active: true,
+					createdAt: 100,
+				},
 			];
 			const db = createMockDb({ rows: mockRows, total: 1 });
 
@@ -160,7 +183,12 @@ describe("runListQuery", () => {
 			await runListQuery({
 				db: db as any,
 				table: features,
-				query: { ...baseQuery, orderBy, limit: 10, offset: 5 },
+				query: {
+					...baseQuery,
+					orderBy,
+					limit: 10,
+					offset: 5,
+				},
 			});
 
 			const rowsChain = db.select.mock.results[0].value;
@@ -173,7 +201,12 @@ describe("runListQuery", () => {
 	describe("envelope mode", () => {
 		it("returns ListResponseEnvelope shape", async () => {
 			const mockRows = [
-				{ id: "1", slug: "a", active: true, createdAt: 100 },
+				{
+					id: "1",
+					slug: "a",
+					active: true,
+					createdAt: 100,
+				},
 			];
 			const db = createMockDb({ rows: mockRows, total: 3 });
 
@@ -194,7 +227,12 @@ describe("runListQuery", () => {
 
 		it("sets has_more false in envelope when at end", async () => {
 			const mockRows = [
-				{ id: "1", slug: "a", active: true, createdAt: 100 },
+				{
+					id: "1",
+					slug: "a",
+					active: true,
+					createdAt: 100,
+				},
 			];
 			const db = createMockDb({ rows: mockRows, total: 1 });
 
@@ -211,7 +249,16 @@ describe("runListQuery", () => {
 
 	describe("count: false (heuristic mode)", () => {
 		it("makes a single query (no count(*))", async () => {
-			const db = createMockDb({ rows: [{ id: "1", slug: "a", active: true, createdAt: 100 }] });
+			const db = createMockDb({
+				rows: [
+					{
+						id: "1",
+						slug: "a",
+						active: true,
+						createdAt: 100,
+					},
+				],
+			});
 
 			await runListQuery({
 				db: db as any,
@@ -226,8 +273,18 @@ describe("runListQuery", () => {
 
 		it("computes heuristic total as offset + rows.length", async () => {
 			const mockRows = [
-				{ id: "1", slug: "a", active: true, createdAt: 100 },
-				{ id: "2", slug: "b", active: true, createdAt: 200 },
+				{
+					id: "1",
+					slug: "a",
+					active: true,
+					createdAt: 100,
+				},
+				{
+					id: "2",
+					slug: "b",
+					active: true,
+					createdAt: 200,
+				},
 			];
 			const db = createMockDb({ rows: mockRows });
 
@@ -262,7 +319,12 @@ describe("runListQuery", () => {
 
 		it("sets has_more false when rows.length < limit", async () => {
 			const mockRows = [
-				{ id: "1", slug: "a", active: true, createdAt: 100 },
+				{
+					id: "1",
+					slug: "a",
+					active: true,
+					createdAt: 100,
+				},
 			];
 			const db = createMockDb({ rows: mockRows });
 
@@ -318,15 +380,30 @@ describe("runListQuery", () => {
 			const mockDb = {
 				select: vi.fn((...args: any[]) => {
 					const chain: Record<string, any> = {};
-					chain.from = vi.fn().mockReturnValue(chain);
-					chain.where = vi.fn().mockReturnValue(chain);
-					chain.orderBy = vi.fn().mockReturnValue(chain);
-					chain.limit = vi.fn().mockReturnValue(chain);
-					chain.offset = vi.fn().mockReturnValue(chain);
-					if (args.length > 0 && args[0]?.total !== undefined) {
-						chain.then = (resolve: any) => resolve([]);
+					chain.from = vi
+						.fn()
+						.mockReturnValue(chain);
+					chain.where = vi
+						.fn()
+						.mockReturnValue(chain);
+					chain.orderBy = vi
+						.fn()
+						.mockReturnValue(chain);
+					chain.limit = vi
+						.fn()
+						.mockReturnValue(chain);
+					chain.offset = vi
+						.fn()
+						.mockReturnValue(chain);
+					if (
+						args.length > 0 &&
+						args[0]?.total !== undefined
+					) {
+						chain.then = (resolve: any) =>
+							resolve([]);
 					} else {
-						chain.then = (resolve: any) => resolve([]);
+						chain.then = (resolve: any) =>
+							resolve([]);
 					}
 					return chain;
 				}),
@@ -351,19 +428,29 @@ describe("runListQuery", () => {
 			sortable: {
 				created_at: features.createdAt,
 			},
-			defaultSort: { key: "created_at" as const, dir: "desc" as const },
+			defaultSort: {
+				key: "created_at" as const,
+				dir: "desc" as const,
+			},
 		};
 
 		it("parses raw URLSearchParams and executes the query", async () => {
 			const mockRows = [
-				{ id: "1", slug: "dark-mode", active: true, createdAt: 100 },
+				{
+					id: "1",
+					slug: "dark-mode",
+					active: true,
+					createdAt: 100,
+				},
 			];
 			const db = createMockDb({ rows: mockRows, total: 1 });
 
 			const result = await runListQuery({
 				db: db as any,
 				table: features,
-				input: new URLSearchParams({ slug: "dark-mode" }),
+				input: new URLSearchParams({
+					slug: "dark-mode",
+				}),
 				config,
 				mode: "rows",
 			});
@@ -390,7 +477,12 @@ describe("runListQuery", () => {
 
 		it("works with envelope mode and raw input", async () => {
 			const mockRows = [
-				{ id: "1", slug: "a", active: true, createdAt: 100 },
+				{
+					id: "1",
+					slug: "a",
+					active: true,
+					createdAt: 100,
+				},
 			];
 			const db = createMockDb({ rows: mockRows, total: 3 });
 
@@ -413,7 +505,9 @@ describe("runListQuery", () => {
 			await runListQuery({
 				db: db as any,
 				table: features,
-				input: new URLSearchParams({ slug: "dark-mode" }),
+				input: new URLSearchParams({
+					slug: "dark-mode",
+				}),
 				config,
 				baseWhere: eq(features.active, true),
 			});
