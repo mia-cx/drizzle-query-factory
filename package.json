@@ -1,0 +1,53 @@
+{
+  "name": "@mia-cx/drizzle-query-factory",
+  "version": "0.1.0",
+  "description": "Declarative, composable query param parser for Drizzle ORM. Converts URLSearchParams into typed Drizzle conditions, sorting, and pagination.",
+  "type": "module",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:watch": "vitest"
+  },
+  "keywords": [
+    "drizzle",
+    "drizzle-orm",
+    "query-params",
+    "filter",
+    "pagination",
+    "sorting",
+    "rest-api"
+  ],
+  "author": "mia-cx",
+  "license": "MIT",
+  "peerDependencies": {
+    "drizzle-orm": ">=0.30.0"
+  },
+  "devDependencies": {
+    "@vesta-cx/config": "workspace:*",
+    "@vitest/coverage-v8": "^4.0.18",
+    "drizzle-orm": "^0.45.1",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.18"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
