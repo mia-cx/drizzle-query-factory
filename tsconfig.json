@@ -1,14 +1,14 @@
 {
-  "$schema": "https://json.schemastore.org/tsconfig",
-  "extends": "@vesta-cx/config/typescript/tsup",
-  "include": ["src/**/*.ts", "tests/**/*.ts"],
-  "exclude": ["dist", "node_modules"],
-  "compilerOptions": {
-    "declaration": true,
-    "declarationDir": "dist/",
-    "outDir": "dist/",
-    "rootDir": "src/",
-    "noUncheckedIndexedAccess": true,
-    "lib": ["ESNext", "DOM", "DOM.Iterable"]
-  }
+    "$schema": "https://json.schemastore.org/tsconfig",
+    "extends": "@vesta-cx/config/typescript/tsup",
+    "include": ["src/**/*.ts"],
+    "exclude": ["dist", "node_modules"],
+    "compilerOptions": {
+        "declaration": true,
+        "declarationDir": "dist/",
+        "outDir": "dist/",
+        "rootDir": "src/",
+        "noUncheckedIndexedAccess": true,
+        "lib": ["ESNext", "DOM", "DOM.Iterable"]
+    }
 }

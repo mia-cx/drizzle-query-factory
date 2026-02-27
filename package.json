@@ -2,33 +2,6 @@
   "name": "@mia-cx/drizzle-query-factory",
   "version": "0.1.0",
   "description": "Declarative, composable query param parser for Drizzle ORM. Converts URLSearchParams into typed Drizzle conditions, sorting, and pagination.",
-  "type": "module",
-  "main": "dist/index.cjs",
-  "module": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
-    }
-  },
-  "files": [
-    "dist"
-  ],
-  "scripts": {
-    "clean": "cleanc clean",
-    "build:clean": "pnpm run clean && pnpm run build",
-    "dev:clean": "pnpm run clean && pnpm run dev",
-    "install:clean": "pnpm run clean && node -e \"try{require('fs').rmSync(require('path').join(process.cwd(),'node_modules'),{recursive:true,force:true})}catch(_){}\" && pnpm i",
-    "build": "tsup",
-    "dev": "tsup --watch",
-    "lint": "eslint .",
-    "format": "prettier --write .",
-    "test": "vitest run",
-    "test:coverage": "vitest run --coverage",
-    "test:watch": "vitest"
-  },
   "keywords": [
     "drizzle",
     "drizzle-orm",
@@ -38,10 +11,34 @@
     "sorting",
     "rest-api"
   ],
-  "author": "mia-cx",
   "license": "MIT",
-  "peerDependencies": {
-    "drizzle-orm": ">=0.30.0"
+  "author": "mia-cx",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "build:clean": "pnpm run clean && pnpm run build",
+    "clean": "cleanc clean",
+    "dev": "tsup --watch",
+    "dev:clean": "pnpm run clean && pnpm run dev",
+    "format": "prettier --write .",
+    "install:clean": "pnpm run clean && node -e \"try{require('fs').rmSync(require('path').join(process.cwd(),'node_modules'),{recursive:true,force:true})}catch(_){}\" && pnpm i",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:watch": "vitest"
   },
   "devDependencies": {
     "@vesta-cx/config": "workspace:*",
@@ -51,6 +48,9 @@
     "tsup": "^8.5.1",
     "typescript": "^5.9.3",
     "vitest": "^4.0.18"
+  },
+  "peerDependencies": {
+    "drizzle-orm": ">=0.30.0"
   },
   "publishConfig": {
     "access": "public"
