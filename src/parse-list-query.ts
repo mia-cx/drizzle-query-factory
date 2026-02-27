@@ -1,3 +1,5 @@
+/** @format */
+
 import { and, asc, desc, type SQL } from "drizzle-orm";
 import { applyOperator } from "./operators";
 import type { ListQueryConfig, ParsedListQuery, QueryInput } from "./types";
@@ -91,7 +93,9 @@ export const parseListQuery = (
 				value = parse(rawValue);
 			}
 
-			conditions.push(applyOperator(op, columnFilter.column, value));
+			conditions.push(
+				applyOperator(op, columnFilter.column, value),
+			);
 			continue;
 		}
 
@@ -110,13 +114,13 @@ export const parseListQuery = (
 	const sortDir = params.get("order");
 
 	const resolvedSortKey =
-		sortKey && sortKey in config.sortable
-			? sortKey
-			: config.defaultSort.key;
+		sortKey && sortKey in config.sortable ?
+			sortKey
+		:	config.defaultSort.key;
 	const resolvedSortDir =
-		sortDir === "asc" || sortDir === "desc"
-			? sortDir
-			: config.defaultSort.dir;
+		sortDir === "asc" || sortDir === "desc" ?
+			sortDir
+		:	config.defaultSort.dir;
 
 	const sortColumn = config.sortable[resolvedSortKey]!;
 	const orderBy =

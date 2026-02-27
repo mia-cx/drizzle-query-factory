@@ -1,4 +1,16 @@
-import { eq, like, gt, gte, lt, lte, inArray, type SQL, type Column } from "drizzle-orm";
+/** @format */
+
+import {
+	eq,
+	like,
+	gt,
+	gte,
+	lt,
+	lte,
+	inArray,
+	type SQL,
+	type Column,
+} from "drizzle-orm";
 import type { FilterOp } from "./types";
 
 type OperatorFn = (column: Column, value: unknown) => SQL;

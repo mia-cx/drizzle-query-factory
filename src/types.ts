@@ -1,4 +1,6 @@
-import type { Column, SQL } from "drizzle-orm";
+/** @format */
+
+import type { Column, SQL, Table } from "drizzle-orm";
 
 /**
  * Accepted input types for `parseListQuery`.
@@ -122,4 +124,81 @@ export type ListResponseEnvelope<T> = {
 /** Standardized envelope for single-item endpoints. */
 export type ItemResponseEnvelope<T> = {
 	data: T;
+};
+
+/**
+ * Result of `runListQuery` in default `"rows"` mode.
+ *
+ * Contains raw rows plus pagination metadata that the consumer can
+ * wrap in any response shape (or pass directly to `listResponse`).
+ */
+export type ListQueryResult<T> = {
+	rows: T[];
+	total: number;
+	has_more: boolean;
+};
+
+/** Fields shared by all `runListQuery` call signatures. */
+type RunListQueryBase<TTable extends Table> = {
+	/** Any Drizzle database instance (D1, Postgres, MySQL, better-sqlite3, etc.). */
+	db: { select: SelectFn };
+	table: TTable;
+	/** Additional WHERE condition composed with query-param filters via `and()`. */
+	baseWhere?: SQL;
+	/**
+	 * When `true` (default), runs a parallel `count(*)` query for exact `total`.
+	 * When `false`, skips count and uses heuristic metadata:
+	 * - `total = offset + rows.length`
+	 * - `has_more = rows.length === limit`
+	 */
+	count?: boolean;
+};
+
+/**
+ * Pre-parsed variant: pass the output of `parseListQuery` directly.
+ * Use when you need to inspect or modify the parsed query before execution.
+ */
+export type RunListQueryParsedArgs<TTable extends Table> =
+	RunListQueryBase<TTable> & { query: ParsedListQuery };
+
+/**
+ * Raw-input variant: pass raw query params and config — `parseListQuery`
+ * is called internally for convenience.
+ *
+ * @example
+ * ```ts
+ * await runListQuery({
+ *   db, table: features,
+ *   input: c.req.raw,          // Request, URL, URLSearchParams, or Record
+ *   config: featureListConfig,
+ *   mode: "envelope",
+ * });
+ * ```
+ */
+export type RunListQueryRawArgs<TTable extends Table> =
+	RunListQueryBase<TTable> & { input: QueryInput; config: ListQueryConfig };
+
+/** Union of both accepted argument shapes. */
+export type RunListQueryArgs<TTable extends Table> =
+	| RunListQueryParsedArgs<TTable>
+	| RunListQueryRawArgs<TTable>;
+
+/**
+ * Options for `runListQuery` in `"rows"` mode (default).
+ * Returns `ListQueryResult<T>` — `{ rows, total, has_more }`.
+ */
+export type RunListQueryRowsOptions<TTable extends Table> =
+	RunListQueryArgs<TTable> & { mode?: "rows" };
+
+/**
+ * Options for `runListQuery` in `"envelope"` mode.
+ * Returns `ListResponseEnvelope<T>` directly.
+ */
+export type RunListQueryEnvelopeOptions<TTable extends Table> =
+	RunListQueryArgs<TTable> & { mode: "envelope" };
+
+/** Minimal `.select()` shape accepted by `runListQuery` for db-agnosticism. */
+type SelectFn = {
+	(): { from: (table: any) => any };
+	(fields: any): { from: (table: any) => any };
 };
