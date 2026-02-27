@@ -1,3 +1,5 @@
+/** @format */
+
 import { describe, expect, it } from "vitest";
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { applyOperator } from "../src/operators";

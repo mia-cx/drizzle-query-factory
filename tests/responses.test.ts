@@ -1,3 +1,5 @@
+/** @format */
+
 import { describe, expect, it } from "vitest";
 import { listResponse, itemResponse } from "../src/responses";
 
@@ -6,7 +8,12 @@ describe("listResponse", () => {
 		const result = listResponse([1, 2, 3], 10, 3, 0);
 		expect(result).toEqual({
 			data: [1, 2, 3],
-			meta: { total: 10, limit: 3, offset: 0, has_more: true },
+			meta: {
+				total: 10,
+				limit: 3,
+				offset: 0,
+				has_more: true,
+			},
 		});
 	});
 
@@ -14,7 +21,12 @@ describe("listResponse", () => {
 		const result = listResponse([1, 2, 3], 3, 20, 0);
 		expect(result).toEqual({
 			data: [1, 2, 3],
-			meta: { total: 3, limit: 20, offset: 0, has_more: false },
+			meta: {
+				total: 3,
+				limit: 20,
+				offset: 0,
+				has_more: false,
+			},
 		});
 	});
 
@@ -22,7 +34,12 @@ describe("listResponse", () => {
 		const result = listResponse([4, 5], 5, 3, 3);
 		expect(result).toEqual({
 			data: [4, 5],
-			meta: { total: 5, limit: 3, offset: 3, has_more: false },
+			meta: {
+				total: 5,
+				limit: 3,
+				offset: 3,
+				has_more: false,
+			},
 		});
 	});
 
@@ -30,7 +47,12 @@ describe("listResponse", () => {
 		const result = listResponse([4, 5, 6], 10, 3, 3);
 		expect(result).toEqual({
 			data: [4, 5, 6],
-			meta: { total: 10, limit: 3, offset: 3, has_more: true },
+			meta: {
+				total: 10,
+				limit: 3,
+				offset: 3,
+				has_more: true,
+			},
 		});
 	});
 
@@ -38,7 +60,12 @@ describe("listResponse", () => {
 		const result = listResponse([], 0, 20, 0);
 		expect(result).toEqual({
 			data: [],
-			meta: { total: 0, limit: 20, offset: 0, has_more: false },
+			meta: {
+				total: 0,
+				limit: 20,
+				offset: 0,
+				has_more: false,
+			},
 		});
 	});
 });
