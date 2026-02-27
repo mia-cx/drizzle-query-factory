@@ -17,6 +17,10 @@
     "dist"
   ],
   "scripts": {
+    "clean": "cleanc clean",
+    "build:clean": "pnpm run clean && pnpm run build",
+    "dev:clean": "pnpm run clean && pnpm run dev",
+    "install:clean": "pnpm run clean && node -e \"try{require('fs').rmSync(require('path').join(process.cwd(),'node_modules'),{recursive:true,force:true})}catch(_){}\" && pnpm i",
     "build": "tsup",
     "dev": "tsup --watch",
     "lint": "eslint .",
@@ -42,6 +46,7 @@
   "devDependencies": {
     "@vesta-cx/config": "workspace:*",
     "@vitest/coverage-v8": "^4.0.18",
+    "cleanc": "workspace:*",
     "drizzle-orm": "^0.45.1",
     "tsup": "^8.5.1",
     "typescript": "^5.9.3",
