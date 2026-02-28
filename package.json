@@ -43,7 +43,7 @@
   "devDependencies": {
     "@vesta-cx/config": "workspace:*",
     "@vitest/coverage-v8": "^4.0.18",
-    "cleanc": "workspace:*",
+    "cleanc": "^0.1.0",
     "drizzle-orm": "^0.45.1",
     "tsup": "^8.5.1",
     "typescript": "^5.9.3",
@@ -54,5 +54,13 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mia-cx/drizzle-query-factory.git"
+  },
+  "homepage": "https://github.com/mia-cx/drizzle-query-factory#readme",
+  "bugs": {
+    "url": "https://github.com/mia-cx/drizzle-query-factory/issues"
   }
 }
